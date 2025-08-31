@@ -1,0 +1,6 @@
+{
+        "best_model": "RandomForest",
+        "features": ["diagonal", "height_left", "height_right", "margin_low", "margin_up", "length"],
+        "target": "label",
+        "class_mapping": {"0": "faux", "1": "vrai"}
+    }
