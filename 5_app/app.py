@@ -51,13 +51,10 @@ Colonnes requises:
     
     st.markdown("### ⚙️ Configuration API")
     # Configuration de l'URL API
-try:
     if st.secrets.get("production", False):
         DEFAULT_API_URL = st.secrets["API_URL"]
     else:
         DEFAULT_API_URL = "http://127.0.0.1:8000"
-except:
-    DEFAULT_API_URL = "http://127.0.0.1:8000"
 
     api_url = st.text_input("URL de l'API", value=DEFAULT_API_URL, label_visibility="collapsed")
 
