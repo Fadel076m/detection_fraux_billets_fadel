@@ -39,23 +39,32 @@ class ModelInfo(BaseModel):
     features: List[str]
     class_mapping: Dict[str, str]
 
+
 # ---------------------------------------------------------
 # 2) Résolution robuste des chemins (API peut être lancée de n'importe où)
 # ---------------------------------------------------------
-HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent
-
-# CORRECTION DES CHEMINS - Conversion explicite en Path
-MODEL_PATH = Path(os.getenv("MODEL_PATH", str(ROOT / "best_model_rf.pkl")))
-SCALER_PATH = Path(os.getenv("SCALER_PATH", str(ROOT / "scaler.pkl")))
-META_PATH = Path(os.getenv("META_PATH", str(ROOT / "meta.json")))
-
-print(f"[INFO] Chemin modèle: {MODEL_PATH}")
-print(f"[INFO] Chemin scaler: {SCALER_PATH}")
-print(f"[INFO] Chemin metadata: {META_PATH}")
-print(f"[INFO] Le modèle existe: {MODEL_PATH.exists()}")
-print(f"[INFO] Le scaler existe: {SCALER_PATH.exists()}")
-print(f"[INFO] Les metadata existent: {META_PATH.exists()}")
+# Configuration pour Render
+if os.getenv('RENDER'):
+    # Sur Render, on utilise le chemin absolu
+    MODEL_PATH = Path("/opt/render/project/src/2_model/best_model_rf.pkl")
+    SCALER_PATH = Path("/opt/render/project/src/2_model/scaler.pkl")
+    META_PATH = Path("/opt/render/project/src/2_model/meta.json")
+else:
+      # En local
+    HERE = Path(__file__).resolve().parent
+    ROOT = HERE.parent
+    
+    # CORRECTION DES CHEMINS - Conversion explicite en Path
+    MODEL_PATH = Path(os.getenv("MODEL_PATH", str(ROOT / "best_model_rf.pkl")))
+    SCALER_PATH = Path(os.getenv("SCALER_PATH", str(ROOT / "scaler.pkl")))
+    META_PATH = Path(os.getenv("META_PATH", str(ROOT / "meta.json")))
+    
+    print(f"[INFO] Chemin modèle: {MODEL_PATH}")
+    print(f"[INFO] Chemin scaler: {SCALER_PATH}")
+    print(f"[INFO] Chemin metadata: {META_PATH}")
+    print(f"[INFO] Le modèle existe: {MODEL_PATH.exists()}")
+    print(f"[INFO] Le scaler existe: {SCALER_PATH.exists()}")
+    print(f"[INFO] Les metadata existent: {META_PATH.exists()}")
 
 # ---------------------------------------------------------
 # 3) Chargement du modèle et metadata au démarrage
